@@ -25,31 +25,31 @@ class Poller extends EventEmitter {
 	}
 
 	poll() {
-    	let previousResponse = null;
+		let previousResponse = null;
 		const axiosOpts = Object.assign({}, {url: this.url}, this.axiosOpts);
 
-    	const pollPromise = () => axios(axiosOpts)
-    		.then(response => {
-			if (this.pollingFlag === false) {
+		const pollPromise = () => axios(axiosOpts)
+			.then(response => {
+				if (this.pollingFlag === false) {
+					return Promise.resolve();
+				}
+
+				!(isEqual(get(previousResponse, 'data', null), response.data)) && this.emit('data', response.data);
+				previousResponse = response;
+
 				return Promise.resolve();
-			}
-
-			!(isEqual(get(previousResponse, 'data', null), response.data)) && this.emit('data', response.data);
-    			previousResponse = response;
-
-    			return Promise.resolve();
-    		})
-    		.then(sleep(this.delay))
-    		.then(() => {
-    			return this.pollingFlag ?
-    				pollPromise() :
-    				Promise.resolve();
-    		})
+			})
+			.then(sleep(this.delay))
+			.then(() => {
+				return this.pollingFlag ?
+					pollPromise() :
+					Promise.resolve();
+			})
 			.catch(err => {
 				isError(err) && this.emit('error', err);
 			});
 
-    	return pollPromise();
+		return pollPromise();
 	}
 }
 

@@ -1,20 +1,19 @@
 {
-  "name": "workspace",
+  "name": "tcs-poller",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A nice poller for your http endpoints",
+  "main": "src/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "xo --env=node --env=mocha && mocha"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["poller","http"],
+  "author": "Thanos Diamantidis <thanos@thechatshop.co.uk>",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
-    "basic-authorization-header": "^0.2.7",
     "lodash": "^4.17.4",
     "sleep-promise": "^2.0.0"
   },
@@ -32,10 +31,6 @@
       "describe"
     ],
     "rules": {
-      "unicorn/filename-case": [
-        "error",
-        "camelCase"
-      ],
       "no-unused-expressions": "off",
       "no-new": "off"
     }

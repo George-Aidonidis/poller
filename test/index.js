@@ -10,12 +10,12 @@ describe('Poller', () => {
 
 	before(done => {
 		axios.get(testUrl)
-            .then(() => {
-            	done();
-})
-            .catch(err => {
-            	done(err);
-});
+			.then(() => {
+				done();
+			})
+			.catch(err => {
+				done(err);
+			});
 	});
 
 	before(() => {
@@ -38,14 +38,14 @@ describe('Poller', () => {
 	});
 
 	it('should emit errors', done => {
-	    const pollerError = new Poller('worngpath');
-    	pollerError.on('error', () => {
-    	    done();
-    	});
+		const pollerError = new Poller('worngpath');
+		pollerError.on('error', () => {
+			done();
+		});
 	});
 
 	it('should not start polling if shouldStart is false', () => {
-	    const start = sinon.spy(Poller.prototype, 'start');
+		const start = sinon.spy(Poller.prototype, 'start');
 		new Poller(testUrl, 1000, {}, false);
 
 		sinon.assert.notCalled(start);
