@@ -1,15 +1,15 @@
 const axios = require('axios');
 const EventEmitter = require('events');
-const {isEqual, isError} = require('lodash');
+const {get, isEqual, isError} = require('lodash');
 const sleep = require('sleep-promise');
 
 class Poller extends EventEmitter {
-    constructor(url, opts = {}, shouldStart = true) {
+    constructor(url, delay = 1000, axiosOpts = {}, shouldStart = true) {
         super();
 
         this.url = url;
-        this.opts = opts;
-        this.delay = 1000;
+        this.axiosOpts = axiosOpts;
+        this.delay = delay;
         this.pollingFlag = shouldStart;
 
         shouldStart && this.poll();
@@ -25,20 +25,15 @@ class Poller extends EventEmitter {
 
     poll() {
     	let previousResponse = null;
+		let axiosOpts = Object.assign({}, {url: this.url}, this.axiosOpts);
 
-    	const pollPromise = () => axios.get(this.url)
+    	const pollPromise = () => axios(axiosOpts)
     		.then(response => {
 				if (this.pollingFlag === false) {
 					return Promise.resolve();
 				}
 
-				if (previousResponse === null) {
-	    			previousResponse = response;
-
-					return Promise.resolve(response);
-				}
-
-				!(isEqual(previousResponse.data, response.data)) && this.emit('data', response);
+				!(isEqual(get(previousResponse, 'data', null), response.data)) && this.emit('data', response.data);
     			previousResponse = response;
 
     			return Promise.resolve();
