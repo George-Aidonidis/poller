@@ -1,9 +1,10 @@
 const axios = require('axios');
 const EventEmitter = require('events');
-const lodash = require('lodash');
+const {isEqual, isError} = require('lodash');
+const sleep = require('sleep-promise');
 
 class Poller extends EventEmitter {
-    constructor(url,  opts = {}, shouldStart = true) {
+    constructor(url, opts = {}, shouldStart = true) {
         super();
 
         this.url = url;
@@ -11,49 +12,51 @@ class Poller extends EventEmitter {
         this.delay = 1000;
         this.pollingFlag = shouldStart;
 
-        shouldStart && this.start();
+        shouldStart && this.poll();
     }
 
-    start(payload = null) {
-          axios.get(this.url).then(result => {
-				if (this.pollingFlag === false) {
-					return;
-				}
-
-				if (payload === null) {
-					this.start(result);
-				} else {
-					const resultsEqual = lodash.isEqual(payload.data, result.data);
-					if (!resultsEqual) {
-					    this.emit('data', result);
-					}
-					setTimeout(() => {
-						console.log('Listening every', this.delay);
-						this.start(result);
-
-					}, this.delay);
-				}
-			}).catch(err => {
-				console.log(err);
-			});
+    start() {
+		this.pollingFlag = true;
     }
 
     stop() {
         this.pollingFlag = false;
     }
+
+    poll() {
+    	let previousResponse = null;
+
+    	const pollPromise = () => axios.get(this.url)
+    		.then(response => {
+				if (this.pollingFlag === false) {
+					return Promise.resolve();
+				}
+
+				if (previousResponse === null) {
+	    			previousResponse = response;
+
+					return Promise.resolve(response);
+				}
+
+				!(isEqual(previousResponse.data, response.data)) && this.emit('data', response);
+    			previousResponse = response;
+
+    			return Promise.resolve();
+    		})
+    		.then(sleep(this.delay))
+    		.then(() => {
+    			return this.pollingFlag
+    				? pollPromise()
+    				: Promise.resolve();
+    		})
+			.catch(reason => {
+				isError(reason) && this.emit('error', reason);
+
+				console.log(reason);
+			})
+
+    	return pollPromise();
+    }
 }
 
 module.exports = Poller;
-
-
-// Ksekinaei to polling me ti start()
-//
-// Kathe fora pou vriskei allages kanei emit('data', payload)
-//
-// Stamataei me tin stop
-//
-// opts -> options gia to axios request https://github.com/mzabriskie/axios#axios-api
-
-//https://username:password@lcapi.com/blha
-
-//ayto exei auth apo ti mana tou kai to axios to timaei

@@ -15,7 +15,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "basic-authorization-header": "^0.2.7",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "sleep-promise": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^4.0.2",
