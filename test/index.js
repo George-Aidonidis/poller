@@ -38,11 +38,10 @@ describe('Poller', () => {
 	});
 
 	it('should emit errors', done => {
-	    pollerError = new Poller('worngpath');
-
-    	pollerError.on('error', error => {
+	    const pollerError = new Poller('worngpath');
+    	pollerError.on('error', () => {
     	    done();
-	});
+    	});
 	});
 
 	it('should not start polling if shouldStart is false', () => {

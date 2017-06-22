@@ -23,5 +23,21 @@
     "mocha": "^3.4.2",
     "sinon": "^2.3.5",
     "xo": "^0.18.2"
+  },
+  "xo": {
+    "globals": [
+      "it",
+      "before",
+      "after",
+      "describe"
+    ],
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        "camelCase"
+      ],
+      "no-unused-expressions": "off",
+      "no-new": "off"
+    }
   }
 }
