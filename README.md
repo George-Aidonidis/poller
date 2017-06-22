@@ -1,4 +1,4 @@
-# poller
+# Poller
 [![Build Status](https://travis-ci.org/thechatshop/poller.svg?branch=master)](https://travis-ci.org/thechatshop/poller)
 
 ### A nice poller for your http endpoints
@@ -10,7 +10,19 @@ const url = 'http://yoururl.com';
 poller = new Poller(url);
 ```
 
-Expect to get changes of the url on `data` event
+To manually start the poller use:
+```
+const poller = new Poller(testUrl, 1000, {}, false);
+poller.start();
+```
+
+To manually stop the poller use:
+```
+const poller = new Poller(testUrl);
+poller.stop();
+```
+
+Expect to get changes of the response on `data` event
 ```
 poller.on('data', (data) => {
   console.log(data);
