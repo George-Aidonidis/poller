@@ -1,3 +1,13 @@
 language: node_js
 node_js:
   - "6"
+script:
+  - npm test
+before_deploy: "Deploying to npm"
+deploy:
+  provider: npm
+  email: "email@email.com"
+  api_key: "encrypted_npm_api_key"
+  on:
+    tags: true
+    repo: thechatshop/poller
