@@ -7,7 +7,8 @@ before_deploy: "Deploying to npm"
 deploy:
   provider: npm
   email: "email@email.com"
-  api_key: "encrypted_npm_api_key"
+  api_key:
+    secure: "encrypted_npm_api_key"
   on:
     tags: true
     repo: thechatshop/poller
