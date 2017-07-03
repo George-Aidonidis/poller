@@ -6,9 +6,9 @@ script:
 before_deploy: "Deploying to npm"
 deploy:
   provider: npm
-  email: "email@email.com"
+  email: "dev@thechatshop.com"
   api_key:
-    secure: "encrypted_npm_api_key"
+    secure: x6IAdv9T2nI5a/LvdZ1FY2ax7m33Lhn9nsK+pp0EtNWt1t9D16Kf488sqCIYgqMp/hGQG4l/+yCSM5ImrKfyTQIea8OTT446I6k0kTchW8ZleDsKWf+6qB/FTOa6Eda7jNu9jwTJfQzP1O4PJ+VbPZv45L5zqM74T1RQR+lulbpw4n0nEkBP6RHp/Vb76cykzxWYSwUpY4TIVYQ5ybX1H1BramD/CyVFSMojDCvzU3UkwiB2OeKQBjIvnFSdfS5uC0qiZBTkTfgE9vTlSW6vKUDs2u35WLGGyGLDE/4s2Xw5odpCXn9tMXK75r+OlYoEjjUA42umWiMYqS0DKOR1Zw+pFfvnkun3wYQT0i5eclcn/o2ZpS2YX3bCtcamlpGdos8BCZIlS6oKjyhaHT6KZun5R7ygJv8ubdQ5SRh10AIGsQLBga9IXYbz51U+b1ozZ8SAAqSNoG+A2XcCtq4RwmDL6sXM/XZTovgYm3Uu1kSIIUz1kwN7vddg9qy951o5RkueCdHakXANRJARau2cMRW0W/LI2bQIDb/Bq9rkodo+o7qVFXXlSZwAcpPr8yz1oID3mlhP6hivyKts++TR7xe2dk9OhR0J3xN7bh18FWgvllkZi/ouTaSer8rBeO34uJV/SZ5Xp4rm/fq3rQEkOlPhxNweU3bbadyh7Bv+Mu8=
   on:
     tags: true
     repo: thechatshop/poller
